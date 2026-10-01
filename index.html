@@ -1,0 +1,415 @@
+!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fransid Maths et français — Abscisses sur une droite graduée (6e)</title>
+<style>
+  :root{
+    --navy:#0d1b4c;
+    --navy-light:#16357a;
+    --green-bg:#e4f7e8;
+    --green-soft:#cdeccf;
+    --green-ok:#2e9e4f;
+    --red-ko:#d23b3b;
+    --accent:#36c26b;
+    --ink:#0b1430;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Trebuchet MS","Segoe UI",Verdana,sans-serif;
+    background:linear-gradient(180deg,var(--green-bg) 0%,#d4f1dd 100%);
+    color:var(--ink);
+    line-height:1.5;
+  }
+  header{
+    background:var(--navy);
+    color:#fff;
+    padding:22px 18px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    flex-wrap:wrap;
+    box-shadow:0 4px 14px rgba(13,27,76,.3);
+    border-bottom:5px solid var(--accent);
+  }
+  .logo{
+    width:84px;height:84px;flex:0 0 auto;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, var(--accent), var(--navy-light) 70%);
+    border:4px solid #fff;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+    box-shadow:0 0 0 4px var(--green-ok);
+  }
+  .logo span{
+    font-size:38px;font-weight:bold;color:#fff;
+    text-shadow:2px 2px 0 var(--navy);
+  }
+  .logo::after{
+    content:"∑ π √";
+    position:absolute;bottom:6px;font-size:9px;color:#eafff0;letter-spacing:1px;
+  }
+  .title-block h1{margin:0;font-size:1.7rem;letter-spacing:1px;color:#fff;}
+  .title-block h1 .fr{color:var(--accent);}
+  .title-block .sub{margin:4px 0 0;font-size:.95rem;color:#cfe0ff;}
+  .header-dl{
+    margin-left:auto;background:var(--accent);color:var(--navy);
+    border:none;border-radius:30px;padding:12px 20px;font-weight:bold;cursor:pointer;
+    font-family:inherit;font-size:1rem;box-shadow:0 4px 10px rgba(0,0,0,.25);
+  }
+  .header-dl:hover{transform:translateY(-2px);}
+  .dl-banner{
+    background:var(--navy);color:#fff;border-radius:12px;padding:16px 20px;
+    margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    justify-content:space-between;box-shadow:0 4px 12px rgba(13,27,76,.25);
+  }
+  .dl-banner span{font-weight:bold;}
+  .dl-banner .btn-download{background:var(--accent);color:var(--navy);}
+  .title-block .auth{
+    margin:6px 0 0;font-size:.9rem;
+    background:var(--accent);color:var(--navy);
+    display:inline-block;padding:3px 12px;border-radius:20px;font-weight:bold;
+  }
+  main{max-width:900px;margin:26px auto;padding:0 16px 60px;}
+  .intro{
+    background:#fff;border-left:6px solid var(--navy);
+    padding:16px 20px;border-radius:10px;margin-bottom:26px;
+    box-shadow:0 3px 10px rgba(13,27,76,.08);
+  }
+  .intro h2{margin:0 0 6px;color:var(--navy);}
+  .section-title{
+    color:var(--navy);border-bottom:3px solid var(--accent);
+    padding-bottom:6px;margin:34px 0 10px;font-size:1.25rem;
+  }
+  .q{
+    background:#fff;border-radius:12px;padding:16px 18px;margin:16px 0;
+    box-shadow:0 3px 10px rgba(13,27,76,.08);
+    border:2px solid transparent;transition:border-color .2s;
+  }
+  .q.ok{border-color:var(--green-ok);background:#effbf1;}
+  .q.ko{border-color:var(--red-ko);background:#fdeeee;}
+  .q-head{font-weight:bold;color:var(--navy);margin-bottom:10px;}
+  .q-head b{color:var(--accent);}
+  .nl-wrap{overflow-x:auto;padding:6px 0;}
+  svg{display:block;}
+  .answer-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;}
+  .answer-row label{font-weight:bold;}
+  input[type=text]{
+    padding:8px 10px;border:2px solid var(--navy-light);border-radius:8px;
+    font-size:1rem;width:130px;font-family:inherit;
+  }
+  input[type=text]:focus{outline:none;border-color:var(--accent);}
+  .feedback{font-weight:bold;margin-top:8px;min-height:20px;}
+  .feedback.ok{color:var(--green-ok);}
+  .feedback.ko{color:var(--red-ko);}
+  .click-hint{font-size:.85rem;color:var(--navy-light);font-style:italic;}
+  .toolbar{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:30px 0;}
+  button.btn{
+    cursor:pointer;border:none;border-radius:30px;padding:14px 26px;
+    font-size:1rem;font-weight:bold;font-family:inherit;
+    transition:transform .15s, box-shadow .15s, background .2s;
+    box-shadow:0 4px 10px rgba(13,27,76,.2);
+  }
+  button.btn:hover{transform:translateY(-2px);box-shadow:0 7px 16px rgba(13,27,76,.3);}
+  .btn-check{background:var(--green-ok);color:#fff;}
+  .btn-reset{background:#fff;color:var(--navy);border:2px solid var(--navy);}
+  .btn-download{background:var(--navy);color:#fff;}
+  .btn-solution{background:var(--accent);color:var(--navy);}
+  #score{
+    text-align:center;font-size:1.3rem;font-weight:bold;color:var(--navy);
+    background:#fff;border-radius:12px;padding:14px;margin:10px auto;max-width:400px;
+    box-shadow:0 3px 10px rgba(13,27,76,.1);display:none;
+  }
+  #solution{
+    display:none;background:var(--navy);color:#fff;border-radius:14px;
+    padding:20px 24px;margin-top:20px;
+  }
+  #solution h2{color:var(--accent);margin-top:0;}
+  #solution ol{padding-left:22px;}
+  #solution li{margin-bottom:10px;}
+  #solution .val{color:var(--accent);font-weight:bold;}
+  footer{text-align:center;color:var(--navy);padding:20px;font-size:.9rem;}
+  footer b{color:var(--navy-light);}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><span>F</span></div>
+  <div class="title-block">
+    <h1>Fransid <span class="fr">Maths et français</span></h1>
+    <p class="sub">Classe de 6<sup>e</sup> — Abscisses sur une droite graduée</p>
+    <p class="auth">Exercice de Sid KHALIFA</p>
+  </div>
+  <button class="btn btn-download header-dl" onclick="downloadPage()" title="Télécharger le fichier HTML">⬇ Télécharger le fichier</button>
+</header>
+
+<main>
+  <div class="intro">
+    <h2>Consignes</h2>
+    <p>Ce sujet contient <b>20 questions</b> :</p>
+    <ul>
+      <li><b>Lire</b> l'abscisse d'un point marqué (point rouge) : écris le nombre dans la case.</li>
+      <li><b>Placer</b> un point : <b>clique</b> sur la droite graduée à l'endroit de l'abscisse demandée.</li>
+      <li><b>Fractions</b> : tu peux répondre avec une fraction (ex. <b>3/4</b>) ou un nombre décimal (ex. <b>0,75</b>).</li>
+    </ul>
+    <p>Clique sur <b>« Vérifier mes réponses »</b> : les bonnes réponses s'affichent en <span style="color:var(--green-ok);font-weight:bold">vert</span>, les mauvaises en <span style="color:var(--red-ko);font-weight:bold">rouge</span>.</p>
+  </div>
+
+  <div class="dl-banner">
+    <span>📄 Pour enregistrer ce sujet sur ton ordinateur :</span>
+    <button class="btn btn-download" onclick="downloadPage()">⬇ Télécharger le fichier HTML</button>
+  </div>
+
+  <h2 class="section-title">Partie 1 — Lire une abscisse</h2>
+  <div id="part1"></div>
+
+  <h2 class="section-title">Partie 2 — Placer un point (clique sur la droite)</h2>
+  <div id="part2"></div>
+
+  <h2 class="section-title">Partie 3 — Abscisses en fractions</h2>
+  <div id="part3"></div>
+
+  <div id="score"></div>
+
+  <div class="toolbar">
+    <button class="btn btn-check" onclick="checkAll()">✔ Vérifier mes réponses</button>
+    <button class="btn btn-reset" onclick="resetAll()">↺ Recommencer</button>
+    <button class="btn btn-download" onclick="downloadPage()">⬇ Télécharger le sujet</button>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn btn-solution" onclick="toggleSolution()">📘 Corrigé avec explication</button>
+  </div>
+
+  <div id="solution">
+    <h2>Corrigé détaillé</h2>
+    <ol id="solution-list"></ol>
+  </div>
+</main>
+
+<footer>
+  <b>Fransid Maths et français</b> — Exercice de Sid KHALIFA · Droite graduée et abscisses (6<sup>e</sup>)
+</footer>
+
+<script>
+const QUESTIONS = [
+  {part:1, mode:"read", min:0,  max:10, step:1,  labelStep:1, value:3,  exp:"Chaque graduation vaut 1. Le point est sur la 3e graduation : abscisse = 3."},
+  {part:1, mode:"read", min:0,  max:10, step:1,  labelStep:1, value:7,  exp:"Chaque graduation vaut 1. Le point tombe sur 7 : abscisse = 7."},
+  {part:1, mode:"read", min:0,  max:20, step:2,  labelStep:2, value:6,  exp:"Les graduations vont de 2 en 2. Le point est sur la graduation 6 : abscisse = 6."},
+  {part:1, mode:"read", min:0,  max:20, step:1,  labelStep:5, value:13, exp:"Entre 10 et 15, en comptant 11,12,13, le point est sur 13 : abscisse = 13."},
+  {part:1, mode:"read", min:-5, max:5,  step:1,  labelStep:1, value:-2, exp:"À gauche de 0, on compte -1 puis -2 : abscisse = -2."},
+  {part:1, mode:"read", min:0,  max:5,  step:0.5,labelStep:1, value:2.5,exp:"Les petites graduations valent 0,5. Le point est entre 2 et 3, pile au milieu : abscisse = 2,5."},
+  {part:1, mode:"read", min:0,  max:10, step:0.5,labelStep:1, value:4.5,exp:"Les petites graduations valent 0,5. Le point est au milieu de 4 et 5 : abscisse = 4,5."},
+  {part:2, mode:"place", min:0,  max:10, step:1,  labelStep:1, value:5,  exp:"On compte 5 graduations depuis 0 : on place le point sur 5."},
+  {part:2, mode:"place", min:0,  max:10, step:1,  labelStep:1, value:8,  exp:"On compte 8 graduations depuis 0 : on place le point sur 8."},
+  {part:2, mode:"place", min:0,  max:20, step:2,  labelStep:2, value:14, exp:"Graduations de 2 en 2. 14 est la 7e graduation : on place le point sur 14."},
+  {part:2, mode:"place", min:-5, max:5,  step:1,  labelStep:1, value:-3, exp:"À gauche de 0, on compte -1,-2,-3 : on place le point sur -3."},
+  {part:2, mode:"place", min:0,  max:5,  step:0.5,labelStep:1, value:3.5,exp:"3,5 est au milieu de 3 et 4 : on place le point sur cette petite graduation."},
+  {part:2, mode:"place", min:0,  max:10, step:1,  labelStep:1, value:2,  exp:"On compte 2 graduations depuis 0 : on place le point sur 2."},
+  {part:2, mode:"place", min:0,  max:20, step:1,  labelStep:5, value:17, exp:"Entre 15 et 20, on compte 16 puis 17 : on place le point sur 17."},
+  {part:3, mode:"read",  min:0, max:1, step:0.2, labelStep:1, value:0.4,  frac:true, fracLabel:"cinquièmes (1/5)", exp:"Le segment [0 ; 1] est partagé en 5 parts égales (cinquièmes). Le point est sur la 2e part : abscisse = 2/5 = 0,4."},
+  {part:3, mode:"read",  min:0, max:1, step:0.25,labelStep:1, value:0.75, frac:true, fracLabel:"quarts (1/4)", exp:"[0 ; 1] est partagé en 4 quarts. Le point est sur le 3e : abscisse = 3/4 = 0,75."},
+  {part:3, mode:"read",  min:0, max:2, step:0.5, labelStep:1, value:1.5,  frac:true, fracLabel:"demis (1/2)", exp:"Chaque demi vaut 1/2. Le point est après 1, au 3e demi : abscisse = 3/2 = 1,5."},
+  {part:3, mode:"read",  min:0, max:1, step:0.1, labelStep:1, value:0.7,  frac:true, fracLabel:"dixièmes (1/10)", exp:"[0 ; 1] est partagé en 10 dixièmes. Le point est sur le 7e : abscisse = 7/10 = 0,7."},
+  {part:3, mode:"place", min:0, max:1, step:0.2, labelStep:1, value:0.6,  frac:true, fracLabel:"cinquièmes (1/5)", exp:"3/5 = 0,6 : c'est la 3e graduation après 0. On clique dessus."},
+  {part:3, mode:"place", min:0, max:1, step:0.25,labelStep:1, value:0.25, frac:true, fracLabel:"quarts (1/4)", exp:"1/4 = 0,25 : c'est la 1re graduation après 0. On clique dessus."},
+];
+
+const W = 720, H = 90, M = 40;
+const EPS = 1e-6;
+function scaleX(v,q){ return M + (v-q.min)/(q.max-q.min)*(W-2*M); }
+function invX(x,q){ return q.min + (x-M)/(W-2*M)*(q.max-q.min); }
+function snap(v,q){ return Math.round((v-q.min)/q.step)*q.step + q.min; }
+function fmt(v){ return (Math.round(v*1000)/1000).toString().replace(".",","); }
+function parseValue(str){
+  if(str==null) return NaN;
+  str = str.trim().replace(/\s/g,"").replace(",",".");
+  if(str==="") return NaN;
+  if(str.includes("/")){
+    const p = str.split("/");
+    if(p.length!==2) return NaN;
+    const a=parseFloat(p[0]), b=parseFloat(p[1]);
+    if(isNaN(a)||isNaN(b)||b===0) return NaN;
+    return a/b;
+  }
+  return parseFloat(str);
+}
+const state = [];
+function svgEl(tag,attrs){
+  const e=document.createElementNS("http://www.w3.org/2000/svg",tag);
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+  return e;
+}
+function buildLine(q,idx){
+  const svg = svgEl("svg",{width:W,height:H,viewBox:`0 0 ${W} ${H}`});
+  const y=55;
+  svg.appendChild(svgEl("line",{x1:M-10,y1:y,x2:W-M+16,y2:y,stroke:"#0d1b4c","stroke-width":3}));
+  svg.appendChild(svgEl("polygon",{points:`${W-M+16},${y} ${W-M+4},${y-6} ${W-M+4},${y+6}`,fill:"#0d1b4c"}));
+  const n=Math.round((q.max-q.min)/q.step);
+  for(let i=0;i<=n;i++){
+    const v=q.min+i*q.step;
+    const x=scaleX(v,q);
+    const big = Math.abs((v-q.min)/q.labelStep - Math.round((v-q.min)/q.labelStep)) < EPS;
+    svg.appendChild(svgEl("line",{x1:x,y1:y-(big?10:6),x2:x,y2:y+(big?10:6),stroke:"#16357a","stroke-width":big?2.5:1.5}));
+    if(big){
+      const t=svgEl("text",{x:x,y:y+28,"text-anchor":"middle","font-size":14,fill:"#0d1b4c","font-weight":"bold"});
+      t.textContent = fmt(v);
+      svg.appendChild(t);
+    }
+  }
+  if(q.mode==="read"){
+    const x=scaleX(q.value,q);
+    svg.appendChild(svgEl("circle",{cx:x,cy:y,r:7,fill:"#d23b3b",stroke:"#fff","stroke-width":2}));
+    svg.appendChild(svgEl("text",{x:x,y:y-16,"text-anchor":"middle","font-size":15,fill:"#d23b3b","font-weight":"bold"})).textContent="A";
+  }
+  if(q.mode==="place"){
+    svg.style.cursor="pointer";
+    const marker = svgEl("circle",{cx:-20,cy:y,r:7,fill:"#2e9e4f",stroke:"#fff","stroke-width":2,visibility:"hidden"});
+    svg.appendChild(marker);
+    svg.addEventListener("click",(ev)=>{
+      const pt=svg.getBoundingClientRect();
+      const px=(ev.clientX-pt.left)*(W/pt.width);
+      let v=snap(invX(px,q),q);
+      v=Math.max(q.min,Math.min(q.max,v));
+      state[idx].placed=v;
+      marker.setAttribute("cx",scaleX(v,q));
+      marker.setAttribute("visibility","visible");
+      marker.setAttribute("fill","#2e9e4f");
+      const lbl=document.getElementById("placed-"+idx);
+      if(lbl) lbl.textContent="Point placé sur : "+fmt(v);
+    });
+    state[idx]={q,placed:null,marker};
+  } else {
+    state[idx]={q,placed:null};
+  }
+  return svg;
+}
+function renderQuestions(){
+  const containers={1:document.getElementById("part1"),2:document.getElementById("part2"),3:document.getElementById("part3")};
+  QUESTIONS.forEach((q,idx)=>{
+    const div=document.createElement("div");
+    div.className="q";div.id="q-"+idx;
+    let head="";
+    if(q.mode==="read" && !q.frac) head=`Question ${idx+1} — <b>Lis</b> l'abscisse du point A.`;
+    if(q.mode==="read" && q.frac) head=`Question ${idx+1} — La droite est partagée en ${q.fracLabel}. <b>Lis</b> l'abscisse du point A (fraction ou décimal).`;
+    if(q.mode==="place" && !q.frac) head=`Question ${idx+1} — <b>Place</b> le point d'abscisse <b>${fmt(q.value)}</b> en cliquant sur la droite.`;
+    if(q.mode==="place" && q.frac) head=`Question ${idx+1} — La droite est partagée en ${q.fracLabel}. <b>Place</b> le point d'abscisse <b>${fracText(q.value)}</b> en cliquant sur la droite.`;
+    div.innerHTML=`<div class="q-head">${head}</div>`;
+    const wrap=document.createElement("div");wrap.className="nl-wrap";
+    div.appendChild(wrap);
+    wrap.appendChild(buildLine(q,idx));
+    const row=document.createElement("div");row.className="answer-row";
+    if(q.mode==="read"){
+      row.innerHTML=`<label>Abscisse de A =</label>
+        <input type="text" id="inp-${idx}" placeholder="${q.frac?'ex. 3/4 ou 0,75':'ex. 3'}">`;
+    } else {
+      row.innerHTML=`<span class="click-hint" id="placed-${idx}">Clique sur la droite pour placer le point…</span>`;
+    }
+    div.appendChild(row);
+    const fb=document.createElement("div");fb.className="feedback";fb.id="fb-"+idx;
+    div.appendChild(fb);
+    containers[q.part].appendChild(div);
+  });
+}
+function fracText(v){
+  const map={0.6:"3/5",0.25:"1/4",0.4:"2/5",0.75:"3/4",1.5:"3/2",0.7:"7/10"};
+  return map[v] ? map[v]+" (soit "+fmt(v)+")" : fmt(v);
+}
+function checkAll(){
+  let correct=0;
+  state.forEach((s,idx)=>{
+    const q=s.q;
+    const div=document.getElementById("q-"+idx);
+    const fb=document.getElementById("fb-"+idx);
+    let userVal, given=true;
+    if(q.mode==="read"){
+      const raw=document.getElementById("inp-"+idx).value;
+      if(raw.trim()==="") given=false;
+      userVal=parseValue(raw);
+    } else {
+      if(s.placed===null) given=false;
+      userVal=s.placed;
+    }
+    div.classList.remove("ok","ko");fb.classList.remove("ok","ko");
+    if(!given){
+      fb.textContent="⚠ Pas de réponse.";
+      fb.classList.add("ko");div.classList.add("ko");
+      if(s.marker){s.marker.setAttribute("visibility","hidden");}
+      return;
+    }
+    const ok=Math.abs(userVal-q.value) < q.step/2 + 1e-9 || Math.abs(userVal-q.value)<1e-6;
+    if(ok){
+      correct++;
+      fb.textContent="✔ Bonne réponse !";
+      fb.classList.add("ok");div.classList.add("ok");
+      if(s.marker) s.marker.setAttribute("fill","#2e9e4f");
+    } else {
+      fb.textContent=`✗ Faux. Bonne réponse : ${q.frac?fracSolution(q.value):fmt(q.value)}`;
+      fb.classList.add("ko");div.classList.add("ko");
+      if(s.marker) s.marker.setAttribute("fill","#d23b3b");
+    }
+  });
+  const sc=document.getElementById("score");
+  sc.style.display="block";
+  sc.textContent=`Score : ${correct} / ${QUESTIONS.length}`;
+  sc.style.color = correct===QUESTIONS.length ? "#2e9e4f" : "#0d1b4c";
+}
+function fracSolution(v){
+  const map={0.4:"2/5 (= 0,4)",0.75:"3/4 (= 0,75)",1.5:"3/2 (= 1,5)",0.7:"7/10 (= 0,7)",0.6:"3/5 (= 0,6)",0.25:"1/4 (= 0,25)"};
+  return map[v]||fmt(v);
+}
+function resetAll(){
+  state.forEach((s,idx)=>{
+    const q=s.q;
+    document.getElementById("q-"+idx).classList.remove("ok","ko");
+    const fb=document.getElementById("fb-"+idx);fb.textContent="";fb.classList.remove("ok","ko");
+    if(q.mode==="read"){document.getElementById("inp-"+idx).value="";}
+    else {
+      s.placed=null;
+      if(s.marker) s.marker.setAttribute("visibility","hidden");
+      document.getElementById("placed-"+idx).textContent="Clique sur la droite pour placer le point…";
+    }
+  });
+  document.getElementById("score").style.display="none";
+}
+function buildSolution(){
+  const ol=document.getElementById("solution-list");
+  QUESTIONS.forEach((q,idx)=>{
+    const li=document.createElement("li");
+    const ans=q.frac?fracSolution(q.value):fmt(q.value);
+    li.innerHTML=`<span class="val">Question ${idx+1} : ${ans}</span> — ${q.exp}`;
+    ol.appendChild(li);
+  });
+}
+function toggleSolution(){
+  const s=document.getElementById("solution");
+  s.style.display = s.style.display==="block" ? "none" : "block";
+}
+function downloadPage(){
+  try{
+    const html="<!DOCTYPE html>\n"+document.documentElement.outerHTML;
+    const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url; a.download="sujet_maths_6eme_abscisses.html"; a.rel="noopener";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+  }catch(e){
+    const html="<!DOCTYPE html>\n"+document.documentElement.outerHTML;
+    const w=window.open("","_blank");
+    w.document.open();w.document.write(html);w.document.close();
+    alert("Téléchargement bloqué par le navigateur : fais Ctrl+S dans le nouvel onglet.");
+  }
+}
+renderQuestions();
+buildSolution();
+</script>
+</body>
+</html>
+
+
+
+
+
